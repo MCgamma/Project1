@@ -9,7 +9,11 @@
     </head>
     <body>
         <div>
-            Your search about <b> {{name}} </b> does not exist
+            {% if file %}
+                <div> Your search about <b> {{name}} </b> exists</div>
+            {% else %}
+                <div> Your search about <b> {{name}} </b> does not exist</div>
+            {% endif %}
         </div>
 
         <div>  {{ file|safe|escape }} </div>
