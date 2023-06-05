@@ -1,0 +1,19 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title> {{ name }} </title>
+        <link href="{% static 'encyclopedia/styles.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <div>
+            Your search about <b> {{name}} </b> does not exist
+        </div>
+
+        <div>  {{ file|safe|escape }} </div>
+        
+
+    </body>
+</html>
