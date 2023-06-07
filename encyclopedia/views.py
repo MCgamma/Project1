@@ -35,9 +35,7 @@ def index(request):
                 return render(request, "encyclopedia/index.html", {
                     "entries": util.list_entries(), "form":SearchForm   # make error with css
                 })
-            
-                      
-                
+                                                  
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries(), "form":SearchForm
     })
@@ -57,3 +55,7 @@ def title(request, name):
             "name": name
         } )
 
+
+
+def new_page(request):
+    return render(request, "encyclopedia/new_page.html")
