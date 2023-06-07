@@ -14,18 +14,30 @@ normal = util.list_entries()
 
 
 def index(request):
-
+    sublist = [util.list_entries()]
     if request.method == "POST":
         sform = SearchForm(request.POST) 
         if sform.is_valid():
             a = sform.cleaned_data["search"]
+            sublist = []
+            for lo in lower:
+                if a.casefold() in lo:
+                    sublist.append(lo)
+
             if a.casefold() in lower:
                            
                 return redirect('encyclo:title', name = a)
+            elif sublist:
+                return render(request, "encyclopedia/entry_sublist.html", {
+                    "entries": sublist, "form":SearchForm
+                })
             else:
-                return HttpResponse("Hello, Simao")
-        
-        
+                return render(request, "encyclopedia/index.html", {
+                    "entries": util.list_entries(), "form":SearchForm   # make error with css
+                })
+            
+                      
+                
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries(), "form":SearchForm
     })

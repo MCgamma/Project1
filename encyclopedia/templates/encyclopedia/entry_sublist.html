@@ -1,0 +1,23 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Search results
+{% endblock %}
+
+{% block body %}
+
+    <div>&nbsp;
+        <h2>Your result doesn't match any encyclopedia title</h2>
+        <h4> Maybe you meant to search about:</h4>
+  
+    </div>
+    <div>&nbsp;</div>
+
+    <ul>
+        {% for entry in entries %}
+            
+            <li> <a href="{% url 'encyclo:title' name=entry %}">  {{ entry }}  </a> </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
