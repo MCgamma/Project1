@@ -8,11 +8,17 @@
         <link href="{% static 'encyclopedia/styles.css' %}" rel="stylesheet">
     </head>
     <body>
-        <div>
+        
+        <div style="margin-top: 20px; width: auto; border-bottom: 1px solid black; font-size: 20px;">
+            <a href="{% url 'encyclo:index' %}"> Home</a> &nbsp; &nbsp;
             {% if file %}
-                <div> Your search about <b> {{name}} </b> exists</div>
-            {% else %}
-                <div> Your search about <b> {{name}} </b> does not exist</div>
+                <a href="{% url 'encyclo:edit_page' tname=name   %}"> Edit page</a>
+            {% endif %}
+
+        </div>
+        <div style="margin-top: 10px;">
+            {% if not file %}
+                <div style="font-size: 25px;"> There is no title by the <b style="color: red;"> {{name}} </b> search </div>
             {% endif %}
         </div>
 

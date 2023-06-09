@@ -6,6 +6,7 @@ from . import util
 import markdown2
 from markdown2 import markdown_path
 from django import forms
+import random
 
 class SearchForm(forms.Form):
     search = forms.CharField(label="Search Encyclopedia")
@@ -38,7 +39,7 @@ def index(request):
                 })
                                                   
     return render(request, "encyclopedia/index.html", {
-        "entries": sublist, "form":SearchForm
+        "entries": sublist, "form":SearchForm, "random":random.choice(sublist)
     })
 
 
@@ -77,3 +78,18 @@ def new_page(request):
     return render(request, "encyclopedia/new_page.html", {
         "error_new":"no_new"
     })
+
+
+def edit_page(request, tname):
+    lower = [y.casefold() for y in util.list_entries()]
+    if request.method == "POST":
+        p = request.POST["contentmd"]
+        util.save_entry(tname, p)
+        return redirect('encyclo:title', name = tname)
+       
+
+    return render(request, "encyclopedia/edit_page.html", {
+        "name":tname, "content":util.get_entry(tname)
+    })
+
+
