@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 
-from django.http import HttpResponse
+
+from django.http import HttpResponse, QueryDict
 from . import util
 import markdown2
 from markdown2 import markdown_path
@@ -9,12 +10,12 @@ from django import forms
 class SearchForm(forms.Form):
     search = forms.CharField(label="Search Encyclopedia")
 
-lower = [y.casefold() for y in util.list_entries()] 
-normal = util.list_entries()
+
 
 
 def index(request):
-    sublist = [util.list_entries()]
+    sublist = util.list_entries()
+    lower = [y.casefold() for y in util.list_entries()]
     if request.method == "POST":
         sform = SearchForm(request.POST) 
         if sform.is_valid():
@@ -33,21 +34,22 @@ def index(request):
                 })
             else:
                 return render(request, "encyclopedia/index.html", {
-                    "entries": util.list_entries(), "form":SearchForm   # make error with css
+                    "entries": sublist, "form":SearchForm   # make error with css
                 })
                                                   
     return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries(), "form":SearchForm
+        "entries": sublist, "form":SearchForm
     })
 
 
-def title(request, name):      
-
-    if name.casefold() in (x.casefold() for x in util.list_entries()):
+def title(request, name):
+    lower = [y.casefold() for y in util.list_entries()]
+    sublist = util.list_entries()
+    if name.casefold() in (x.casefold() for x in sublist):
         b = lower.index(name.casefold())
         file = markdown2.markdown(markdown_path(f"./entries/{name}.md"))
         return render(request, "encyclopedia/exist.html", {
-            "name":normal[b], "file":file
+            "name":sublist[b], "file":file
         })
 
     else:
@@ -58,4 +60,20 @@ def title(request, name):
 
 
 def new_page(request):
-    return render(request, "encyclopedia/new_page.html")
+    lower = [y.casefold() for y in util.list_entries()]
+    if request.method == "POST":
+        p = request.POST["titlemd"]
+        t = request.POST["contentmd"]
+        
+        if util.get_entry(p):
+            return render(request, "encyclopedia/new_page.html", {
+                "error_new":"error_new"
+            })
+        else:
+            util.save_entry(p,t)
+            return redirect('encyclo:title', name = p)
+
+
+    return render(request, "encyclopedia/new_page.html", {
+        "error_new":"no_new"
+    })

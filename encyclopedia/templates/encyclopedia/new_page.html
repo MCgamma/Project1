@@ -8,18 +8,22 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="{% static 'encyclopedia/styles.css' %}" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: rgba(57, 252, 252, 0.603);">
     <div>
         <br>
-    <form action="/action_page.php">
-        <div class="form-floating">
-
-            <input style="border: 2px solid rgb(4, 30, 39); border-radius: 2px;" type="text" placeholder="Enter Title here" ></input>
+    <form action="{% url 'encyclo:new_page' %}" method="post">
+        {% csrf_token %}
+        <div>
+            <div style="display: inline-block; ">
+                <input id="titleinp" type="text" name="titlemd" placeholder="Enter Title here" ></input>
+                &nbsp;
+                <span id="{{error_new}}"> *Error: The page you tried to create already exists</span>
+            </div>
             <br>
             <br>
-            <textarea  class="form-control" id="floatingTextarea" name="w3review" rows="4" cols="50" placeholder="Add Markdown content here"></textarea>
+            <textarea name="contentmd" placeholder="Add Markdown content here"></textarea>
             <br>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Save">
         </div>
         
     </form>

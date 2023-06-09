@@ -13,7 +13,7 @@ h1 {
 }
 
 textarea {
-    height: 90vh;
+    height: 60vh;
     width: 80%;
 }
 
@@ -36,3 +36,27 @@ textarea {
 .sidebar h2 {
     margin-top: 5px;
 }
+
+#titleinp {
+    border: 2px solid rgb(4, 30, 32);
+    border-radius: 2px;
+}
+
+@keyframes example {
+    0% {color: red;}
+    10% {color: red;}
+    90% {color: red;}
+    100% {color: transparent;}
+}
+
+#error_new {
+    color: transparent;
+    animation-name: example;
+    animation-delay: 0s;
+    animation-duration: 5s;
+    animation-timing-function: ease-out;
+  }
+
+  #no_new {
+    color: transparent;
+  }
