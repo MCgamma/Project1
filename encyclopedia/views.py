@@ -31,15 +31,15 @@ def index(request):
                 return redirect('encyclo:title', name = a)
             elif sublist:
                 return render(request, "encyclopedia/entry_sublist.html", {
-                    "entries": sublist, "form":SearchForm
+                    "entries": sublist, "form":SearchForm, "random":random.choice(util.list_entries())
                 })
             else:
                 return render(request, "encyclopedia/index.html", {
-                    "entries": sublist, "form":SearchForm   # make error with css
+                    "entries": util.list_entries(), "form":SearchForm,"random":random.choice(util.list_entries())   # make error with css
                 })
                                                   
     return render(request, "encyclopedia/index.html", {
-        "entries": sublist, "form":SearchForm, "random":random.choice(sublist)
+        "entries": sublist, "form":SearchForm, "random":random.choice(util.list_entries())
     })
 
 
